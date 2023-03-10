@@ -10,8 +10,7 @@ class SettingScreen extends StatefulWidget {
 
 class _SettingScreenState extends State<SettingScreen> {
   int settingColor = 0xFF1976d2;
-  double fontSize = 12;
-  String fontName = 'small';
+  SizeApp settingSize = SizeApp(sizeName: 'small', sizeFont: 12);
   List<int> colors = [
     0xFF455A64,
     0xFFFC107,
@@ -19,24 +18,52 @@ class _SettingScreenState extends State<SettingScreen> {
     0xFFF57C00,
     0xFF795748
   ];
-  late SizeApp firstSize = SizeApp(fontName, fontSize);
-  List<SizeApp> fontSizes = [
-    SizeApp('small', 12),
-    SizeApp('medium', 16),
-    SizeApp('large', 20),
-  ];
+  late List<SizeApp> listFont;
   SPSettings settings = SPSettings();
 
   @override
   void initState() {
+    listFont = [
+      settingSize,
+      SizeApp(sizeName: 'medium', sizeFont: 16),
+      SizeApp(sizeName: 'large', sizeFont: 24)
+    ];
     settings.init().then((value) {
       setState(() {
         settingColor = settings.getColor();
-        fontSize = settings.getFontSize();
-        fontName = settings.getFontName();
+        settingSize = SizeApp(
+            sizeName: settings.getFontName(), sizeFont: settings.getFontSize());
+        listFont = perfectList(settingSize);
       });
     });
     super.initState();
+  }
+
+  List<SizeApp> perfectList(SizeApp chaine) {
+    List<SizeApp> list = [];
+    switch (chaine.sizeName) {
+      case "medium":
+        list = [
+          chaine,
+          SizeApp(sizeName: 'small', sizeFont: 12),
+          SizeApp(sizeName: 'large', sizeFont: 24)
+        ];
+        break;
+      case "large":
+        list = list = [
+          chaine,
+          SizeApp(sizeName: 'small', sizeFont: 12),
+          SizeApp(sizeName: 'medium', sizeFont: 16)
+        ];
+        break;
+      default:
+        list = list = [
+          chaine,
+          SizeApp(sizeName: 'medium', sizeFont: 16),
+          SizeApp(sizeName: 'large', sizeFont: 24)
+        ];
+    }
+    return list;
   }
 
   @override
@@ -45,7 +72,9 @@ class _SettingScreenState extends State<SettingScreen> {
         appBar: AppBar(
           title: Text(
             'Setting',
-            style: TextStyle(fontSize: fontSize),
+            style: TextStyle(
+              fontSize: settingSize.sizeFont,
+            ),
           ),
           backgroundColor: Color(settingColor),
         ),
@@ -54,20 +83,26 @@ class _SettingScreenState extends State<SettingScreen> {
           children: [
             Text(
               "App Main Color",
-              style: TextStyle(fontSize: fontSize),
+              style: TextStyle(
+                  fontSize: settingSize.sizeFont, color: Color(settingColor)),
+            ),
+            Text(
+              'Choose your size App',
+              style: TextStyle(
+                  fontSize: settingSize.sizeFont, color: Color(settingColor)),
             ),
             DropdownButton<SizeApp>(
-              items: fontSizes.map((value) {
-                //fontSizes.reversed;
+              value: settingSize,
+              items: listFont.map((value) {
                 return DropdownMenuItem<SizeApp>(
-                    value: value, child: Text(value.sizeName));
+                  value: value,
+                  child: Text(value.sizeName),
+                );
               }).toList(),
-              value: firstSize,
               onChanged: (value) {
                 setState(() {
-                  firstSize = value!;
+                  setFont(value!);
                 });
-                setSize(firstSize);
               },
             ),
             Row(
@@ -106,13 +141,10 @@ class _SettingScreenState extends State<SettingScreen> {
     });
   }
 
-  void setSize(SizeApp size) {
-    setState(() {
-      fontSize = size.sizeValue;
-      settings.setFontSize(size.sizeValue);
-      fontName = size.sizeName;
-      settings.setFontName(size.sizeName);
-    });
+  void setFont(SizeApp size) {
+    settingSize = size;
+    settings.setFontName(size.sizeName);
+    settings.setFontSize(size.sizeFont);
   }
 }
 
@@ -135,8 +167,8 @@ class SquareColor extends StatelessWidget {
 }
 
 class SizeApp {
-  final String sizeName;
-  final double sizeValue;
+  String sizeName;
+  double sizeFont;
 
-  SizeApp(this.sizeName, this.sizeValue);
+  SizeApp({required this.sizeName, required this.sizeFont});
 }
