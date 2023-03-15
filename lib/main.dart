@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:persisting_data/screen/settings.dart';
+import 'package:persisting_data/screens/home.dart';
+import 'package:persisting_data/screens/settings.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const SettingScreen(),
+      home: HomeScreen(),
     );
   }
 }
