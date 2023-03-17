@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../data/shared_prefs.dart';
 import '../screens/passwords.dart';
 import '../screens/settings.dart';
+// import 'note.dart';
+import 'notes.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -70,6 +72,21 @@ class _HomeScreenState extends State<HomeScreen> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => PasswordsScreen()));
+                  },
+                ),
+                ListTile(
+                  title: Text(
+                    'Notes',
+                    style: TextStyle(
+                      fontSize: fontSize,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => NotesScreen()));
                   },
                 ),
               ],

@@ -36,6 +36,7 @@ dependencies:
   path_provider: ^2.0.13
   sembast: ^3.4.1+1
   shared_preferences: ^2.0.18
+  sqflite: ^2.2.6
 
 dev_dependencies:
   flutter_lints: ^2.0.0
