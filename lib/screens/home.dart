@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:persisting_data/screens/posts.dart';
 import '../data/shared_prefs.dart';
 import '../screens/passwords.dart';
 import '../screens/settings.dart';
@@ -87,6 +88,21 @@ class _HomeScreenState extends State<HomeScreen> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => NotesScreen()));
+                  },
+                ),
+                ListTile(
+                  title: Text(
+                    'Posts',
+                    style: TextStyle(
+                      fontSize: fontSize,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PostsScreen()));
                   },
                 ),
               ],

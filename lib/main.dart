@@ -1,8 +1,10 @@
+import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
+import 'package:persisting_data/data/moor_db.dart';
 import 'package:persisting_data/screens/home.dart';
-import 'package:persisting_data/screens/settings.dart';
+import 'package:provider/provider.dart';
 
-void main() {
+Future<void> main() async {
   runApp(const MyApp());
 }
 
@@ -12,14 +14,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'GlobApp',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return Provider(
+      create: (context) => /*BlogDb(NativeDatabase.memory())*/ BlogDb(),
+      child: MaterialApp(
+        title: 'GlobeApp',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: HomeScreen(),
       ),
-      home: HomeScreen(),
     );
   }
 }
-
-
